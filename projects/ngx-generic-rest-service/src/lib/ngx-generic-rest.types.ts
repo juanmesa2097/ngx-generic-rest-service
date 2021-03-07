@@ -8,8 +8,8 @@ export interface HttpConfig {
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export type ResultMessage = {
-  successMsg: string;
-  errorMsg: string;
+  successMsg?: string;
+  errorMsg?: string;
 };
 
 type _httpHeaders = HttpHeaders | { [header: string]: string | string[] };
@@ -22,19 +22,19 @@ export type HttpRequestOptions = {
   params?: _httpParams;
   observe?: _observe;
   reportProgress?: boolean;
-  responseType: _responseType;
+  responseType?: _responseType;
   withCredentials?: boolean;
 };
 
 export type HttpOptions<T = any> = HttpRequestOptions & {
-  url: string;
-  urlPostfix: string;
-  mapResponseFn: (res: any) => T;
+  url?: string;
+  urlPostfix?: string;
+  mapResponseFn?: (res: any) => T;
 };
 
 export type HttpGetOptions<T = any> = HttpOptions<T> & ResultMessage;
 export type HttpAddOptions<T = any> = HttpOptions<T> & ResultMessage;
 export type HttpUpdateOptions<T = any> = HttpOptions<T> & {
-  method: 'PUT' | 'PATCH';
+  method?: 'PUT' | 'PATCH';
 } & ResultMessage;
 export type HttpDeleteOptions<T = any> = HttpOptions<T> & ResultMessage;

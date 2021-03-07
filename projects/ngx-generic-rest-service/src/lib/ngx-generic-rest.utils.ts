@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { HttpOptions } from './ngx-generic-rest.types';
 
 export const resolveUrl = (
@@ -23,4 +24,26 @@ export const resolveUrl = (
   return result;
 };
 
-export const extractRequestConfig = (config?: HttpOptions) => ({});
+export const extractRequestOptions = (options?: any) => {
+  if (!options) return {};
+
+  return [
+    'headers',
+    'params',
+    'observe',
+    'reportProgress',
+    'responseType',
+    'withCredentials',
+  ].reduce((requestOptions: any, key) => {
+    const value = options[key];
+
+    if (value !== undefined) {
+      requestOptions[key] = value;
+    }
+
+    return requestOptions;
+  }, {});
+};
+
+export const mapResponse = <T>(options?: HttpOptions) =>
+  map((res: T) => (options?.mapResponseFn ? options.mapResponseFn(res) : res));
