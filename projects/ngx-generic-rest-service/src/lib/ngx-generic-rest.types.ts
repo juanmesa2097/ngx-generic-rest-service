@@ -27,7 +27,7 @@ export type HttpOptions<T = any> = HttpRequestOptions & {
   mapFn?: (res: any) => T;
 };
 
-export type HttpGetAllOptions<T = any> = HttpOptions<T>;
+export type HttpGetListOptions<T = any> = HttpOptions<T>;
 export type HttpGetSingleOptions<T = any> = HttpOptions<T>;
 export type HttpAddOptions<T = any> = HttpOptions<T>;
 export type HttpUpdateOptions<T = any> = HttpOptions<T> & {

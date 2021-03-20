@@ -6,7 +6,7 @@ import {
   HttpAddOptions,
   HttpConfig,
   HttpDeleteOptions,
-  HttpGetAllOptions,
+  HttpGetListOptions,
   HttpGetSingleOptions,
   HttpMethod,
   HttpUpdateOptions,
@@ -39,10 +39,10 @@ export class NgxGenericRestService {
 
   /**
    * Performs a GET HTTP request
-   * @param options custom specific HTTP options for GetAll requests
+   * @param options custom specific HTTP options for GET list requests
    * @returns generic type | list of objects
    */
-  getAll<T>(options?: HttpGetAllOptions): Observable<T> {
+  list<T>(options?: HttpGetListOptions): Observable<T> {
     const method: HttpMethod = 'GET';
     const url = resolveUrl(this.url, options);
     const requestOptions = extractRequestOptions(options);
@@ -54,10 +54,10 @@ export class NgxGenericRestService {
 
   /**
    * Performs a GET HTTP request
-   * @param options custom specific HTTP options for GetSingle requests
+   * @param options custom specific HTTP options for GET single requests
    * @returns generic type | single object
    */
-  getSingle<T>(
+  single<T>(
     id: string | number,
     options?: HttpGetSingleOptions
   ): Observable<T> {
