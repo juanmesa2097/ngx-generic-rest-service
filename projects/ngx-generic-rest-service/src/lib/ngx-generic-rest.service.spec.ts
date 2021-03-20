@@ -73,7 +73,7 @@ describe('NgxGenericRestService', () => {
     });
   });
 
-  describe('get', () => {
+  describe('getAll', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [TestService],
@@ -89,7 +89,7 @@ describe('NgxGenericRestService', () => {
           { id: 2, foo: 'bar', bar: 2 },
         ];
 
-        testService.get<TestEntity[]>().subscribe((result) => {
+        testService.getAll<TestEntity[]>().subscribe((result) => {
           expect(result).toEqual(dummyData);
         });
 
@@ -98,11 +98,11 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it('should override request URL when called with config.url', inject(
+    it('should rewrite request URL when called with config.rewrite', inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyUrl = 'dummy-url';
-        testService.get({ url: dummyUrl }).subscribe();
+        testService.getAll({ urlRewrite: dummyUrl }).subscribe();
         const request = httpMock.expectOne(dummyUrl);
         request.flush([]);
       }
@@ -113,7 +113,7 @@ describe('NgxGenericRestService', () => {
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyPostfix = 'foo/0/bar/1';
         const expectedUrl = `${testService.url}/${dummyPostfix}`;
-        testService.get({ urlPostfix: dummyPostfix }).subscribe();
+        testService.getAll({ urlPostfix: dummyPostfix }).subscribe();
         const request = httpMock.expectOne((req) => req.url === expectedUrl);
         request.flush([]);
       }
@@ -131,8 +131,8 @@ describe('NgxGenericRestService', () => {
         };
 
         testService
-          .get<TestEntity[]>({
-            mapResponseFn: (res) => res.data,
+          .getAll({
+            mapFn: (res) => res.data,
           })
           .subscribe((result) => {
             expect(result).toEqual(dummyResponse.data);
@@ -157,9 +157,9 @@ describe('NgxGenericRestService', () => {
         ];
 
         testService
-          .get<{ name: string; age: number }[]>({
-            mapResponseFn: (res: TestEntity[]) =>
-              res.map((entity) => ({ name: entity.foo, age: 18 })),
+          .getAll({
+            mapFn: (res) =>
+              res.map((entity: TestEntity) => ({ name: entity.foo, age: 18 })),
           })
           .subscribe((result) => {
             expect(result).toEqual(expectedResult);
@@ -176,7 +176,7 @@ describe('NgxGenericRestService', () => {
         const headers = new HttpHeaders()
           .set('x-foo', 'foo')
           .set('x-bar', 'bar');
-        testService.get({ headers }).subscribe();
+        testService.getAll({ headers }).subscribe();
 
         const request = httpMock.expectOne(testService.url);
         expect(request.request.headers.get('x-foo')).toBe('foo');
@@ -189,9 +189,142 @@ describe('NgxGenericRestService', () => {
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const params = new HttpParams().set('foo', 'foo').set('bar', 'bar');
-        testService.get({ params }).subscribe();
+        testService.getAll({ params }).subscribe();
         const request = httpMock.expectOne(
           (req) => req.url === testService.url
+        );
+        expect(request.request.params.get('foo')).toEqual('foo');
+        expect(request.request.params.get('bar')).toEqual('bar');
+        request.flush([]);
+      }
+    ));
+  });
+
+  describe('getSingle', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [TestService],
+        imports: [HttpClientTestingModule],
+      });
+    });
+
+    it('should return result from request', inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const dummyData: TestEntity = { id: dummyId, foo: 'foo', bar: 1 };
+
+        testService.getSingle<TestEntity>(dummyId).subscribe((result) => {
+          expect(result).toEqual(dummyData);
+        });
+
+        const request = httpMock.expectOne(`${testService.url}/${dummyId}`);
+        request.flush(dummyData);
+      }
+    ));
+
+    it('should rewrite request URL when called with config.rewrite', inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const dummyUrl = 'dummy-url';
+        testService.getSingle(dummyId, { urlRewrite: dummyUrl }).subscribe();
+        const request = httpMock.expectOne(dummyUrl);
+        request.flush([]);
+      }
+    ));
+
+    it('should add postfix to request URL when called with config.urlPostfix', inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const dummyPostfix = 'foo/0/bar/1';
+        const expectedUrl = `${testService.url}/${dummyId}/${dummyPostfix}`;
+        testService
+          .getSingle(dummyId, { urlPostfix: dummyPostfix })
+          .subscribe();
+        const request = httpMock.expectOne((req) => req.url === expectedUrl);
+        request.flush([]);
+      }
+    ));
+
+    it("should map request's response to desired result when called with config.mapResponseFn", inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const dummyResponse: { data: TestEntity[]; count: number } = {
+          data: [
+            { id: 1, foo: 'foo', bar: 1 },
+            { id: 2, foo: 'bar', bar: 2 },
+          ],
+          count: 2,
+        };
+
+        testService
+          .getSingle(dummyId, {
+            mapFn: (res) => res.data,
+          })
+          .subscribe((result) => {
+            expect(result).toEqual(dummyResponse.data);
+          });
+
+        const request = httpMock.expectOne(`${testService.url}/${dummyId}`);
+        request.flush(dummyResponse);
+      }
+    ));
+
+    it("should transform request's result to desired result when called with config.mapResponseFn", inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const dummyData: TestEntity[] = [
+          { id: 1, foo: 'foo', bar: 1 },
+          { id: 2, foo: 'bar', bar: 2 },
+        ];
+
+        const expectedResult = [
+          { name: 'foo', age: 18 },
+          { name: 'bar', age: 18 },
+        ];
+
+        testService
+          .getSingle(dummyId, {
+            mapFn: (res) =>
+              res.map((entity: TestEntity) => ({ name: entity.foo, age: 18 })),
+          })
+          .subscribe((result) => {
+            expect(result).toEqual(expectedResult);
+          });
+
+        const request = httpMock.expectOne(`${testService.url}/${dummyId}`);
+        request.flush(dummyData);
+      }
+    ));
+
+    it('should add headers to request when called with config.headers', inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const headers = new HttpHeaders()
+          .set('x-foo', 'foo')
+          .set('x-bar', 'bar');
+        testService.getSingle(dummyId, { headers }).subscribe();
+
+        const request = httpMock.expectOne(`${testService.url}/${dummyId}`);
+        expect(request.request.headers.get('x-foo')).toBe('foo');
+        expect(request.request.headers.get('x-bar')).toBe('bar');
+        request.flush([]);
+      }
+    ));
+
+    it('should add params to request when called with config.params', inject(
+      [TestService, HttpTestingController],
+      (testService: TestService, httpMock: HttpTestingController) => {
+        const dummyId = 1;
+        const params = new HttpParams().set('foo', 'foo').set('bar', 'bar');
+        testService.getSingle(dummyId, { params }).subscribe();
+        const request = httpMock.expectOne(
+          (req) => req.url === `${testService.url}/${dummyId}`
         );
         expect(request.request.params.get('foo')).toEqual('foo');
         expect(request.request.params.get('bar')).toEqual('bar');
@@ -220,13 +353,13 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it('should override request URL when called with config.url', inject(
+    it('should rewrite request URL when called with config.rewrite', inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyEntity: TestEntity = { foo: 'foo', bar: 999 };
         const dummyUrl = 'dummy-url';
         testService
-          .add<TestEntity>(dummyEntity, { url: dummyUrl })
+          .add<TestEntity>(dummyEntity, { urlRewrite: dummyUrl })
           .subscribe();
         const request = httpMock.expectOne(dummyUrl);
         request.flush([]);
@@ -264,7 +397,7 @@ describe('NgxGenericRestService', () => {
 
         testService
           .add<TestEntity>(dummyEntity, {
-            mapResponseFn: (res) => res.result,
+            mapFn: (res) => res.result,
           })
           .subscribe((result) => {
             expect(result).toEqual(dummyResponse.result);
@@ -338,7 +471,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it('should override request URL when called with config.url', inject(
+    it('should rewrite request URL when called with config.rewrite', inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyId = 1;
@@ -346,7 +479,7 @@ describe('NgxGenericRestService', () => {
         const dummyUrl = 'dummy-url';
 
         testService
-          .update<TestEntity>(dummyId, dummyEntity, { url: dummyUrl })
+          .update<TestEntity>(dummyId, dummyEntity, { urlRewrite: dummyUrl })
           .subscribe();
 
         const request = httpMock.expectOne(dummyUrl);
@@ -391,7 +524,7 @@ describe('NgxGenericRestService', () => {
 
         testService
           .update<TestEntity>(dummyId, dummyEntity, {
-            mapResponseFn: (res) => res.result,
+            mapFn: (res) => res.result,
           })
           .subscribe((result) => {
             expect(result).toEqual(dummyResponse.result);
@@ -464,14 +597,14 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it('should override request URL when called with config.url', inject(
+    it('should rewrite request URL when called with config.rewrite', inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyId = 1;
         const dummyUrl = 'dummy-url';
 
         testService
-          .delete<TestEntity>(dummyId, { url: dummyUrl })
+          .delete<TestEntity>(dummyId, { urlRewrite: dummyUrl })
           .subscribe();
 
         const request = httpMock.expectOne(dummyUrl);
@@ -514,7 +647,7 @@ describe('NgxGenericRestService', () => {
 
         testService
           .delete<string>(dummyId, {
-            mapResponseFn: (res) =>
+            mapFn: (res) =>
               res.succeeded && res.result ? 'DELETED' : 'NOT_DELETED',
           })
           .subscribe((result) => {
