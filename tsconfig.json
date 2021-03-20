@@ -12,8 +12,7 @@
     "declaration": false,
     "downlevelIteration": true,
     "paths": {
-      "ngx-generic-rest-service": [
-        "dist/ngx-generic-rest-service/ngx-generic-rest-service",
+      "ngx-generic-rest-service": [        
         "dist/ngx-generic-rest-service"
       ]
     },
