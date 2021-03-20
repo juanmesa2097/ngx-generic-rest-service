@@ -3,5 +3,46 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-generic-rest-service": {
+      "projectType": "library",
+      "root": "projects/ngx-generic-rest-service",
+      "sourceRoot": "projects/ngx-generic-rest-service/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-generic-rest-service/tsconfig.lib.json",
+            "project": "projects/ngx-generic-rest-service/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-generic-rest-service/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-generic-rest-service/src/test.ts",
+            "tsConfig": "projects/ngx-generic-rest-service/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-generic-rest-service/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-generic-rest-service/tsconfig.lib.json",
+              "projects/ngx-generic-rest-service/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-generic-rest-service"
 }
