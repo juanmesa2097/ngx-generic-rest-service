@@ -6,7 +6,8 @@ import {
   HttpAddOptions,
   HttpConfig,
   HttpDeleteOptions,
-  HttpGetOptions,
+  HttpGetAllOptions,
+  HttpGetSingleOptions,
   HttpMethod,
   HttpUpdateOptions,
 } from './ngx-generic-rest.types';
@@ -17,10 +18,10 @@ import {
 } from './ngx-generic-rest.utils';
 
 export class NgxGenericRestService {
-  private readonly _http: HttpClient;
+  private readonly http: HttpClient;
 
   constructor(protected _httpConfig: HttpConfig) {
-    this._http = inject(HttpClient);
+    this.http = inject(HttpClient);
   }
 
   get url(): string {
@@ -28,30 +29,67 @@ export class NgxGenericRestService {
     return `${baseUrl}/${resourceName}`;
   }
 
+  /**
+   * Exposes HTTP client service to allow custom HTTP requests
+   * @returns HTTP client service
+   */
   getHttpClient(): HttpClient {
-    return this._http;
+    return this.http;
   }
 
-  get<T>(options?: HttpGetOptions): Observable<T> {
+  /**
+   * Performs a GET HTTP request
+   * @param options custom specific HTTP options for GetAll requests
+   * @returns generic type | list of objects
+   */
+  getAll<T>(options?: HttpGetAllOptions): Observable<T> {
     const method: HttpMethod = 'GET';
     const url = resolveUrl(this.url, options);
     const requestOptions = extractRequestOptions(options);
 
-    return this._http
+    return this.http
       .request<T>(method, url, requestOptions)
       .pipe(mapResponse(options), catchError(this.handleError));
   }
 
-  add<T>(body: T, options?: HttpAddOptions): Observable<T> {
-    const method: HttpMethod = 'POST';
-    const url = resolveUrl(this.url, options);
-    const optionsWithBody = { ...extractRequestOptions(options), body };
+  /**
+   * Performs a GET HTTP request
+   * @param options custom specific HTTP options for GetSingle requests
+   * @returns generic type | single object
+   */
+  getSingle<T>(
+    id: string | number,
+    options?: HttpGetSingleOptions
+  ): Observable<T> {
+    const method: HttpMethod = 'GET';
+    const url = resolveUrl(this.url, options, id.toString());
+    const requestOptions = extractRequestOptions(options);
 
-    return this._http
-      .request<T>(method, url, optionsWithBody)
+    return this.http
+      .request<T>(method, url, requestOptions)
       .pipe(mapResponse(options), catchError(this.handleError));
   }
 
+  /**
+   * Performs a POST HTTP request (flexible for bulk inserting)
+   * @param options custom specific HTTP options for Add requests
+   * @returns generic type | single object or list of objects
+   */
+  add<T>(body: T, options?: HttpAddOptions): Observable<T> {
+    const method: HttpMethod = 'POST';
+    const url = resolveUrl(this.url, options);
+    const requestOptions = { ...extractRequestOptions(options), body };
+
+    return this.http
+      .request<T>(method, url, requestOptions)
+      .pipe(mapResponse(options), catchError(this.handleError));
+  }
+
+  /**
+   * Performs a PUT | PATCH HTTP request (flexible for bulk updating)
+   * @param options custom specific HTTP options for Update requests
+   * @returns generic type | single object or list of objects
+   */
   update<T>(
     id: string | number,
     body: T,
@@ -59,19 +97,24 @@ export class NgxGenericRestService {
   ): Observable<T> {
     const method: HttpMethod = options?.method || 'PUT';
     const url = resolveUrl(this.url, options, id.toString());
-    const optionsWithBody = { ...extractRequestOptions(options), body };
+    const requestOptions = { ...extractRequestOptions(options), body };
 
-    return this._http
-      .request<T>(method, url, optionsWithBody)
+    return this.http
+      .request<T>(method, url, requestOptions)
       .pipe(mapResponse(options), catchError(this.handleError));
   }
 
+  /**
+   * Performs a DELETE HTTP request (flexible for bulk deleting)
+   * @param options custom specific HTTP options for Delete requests
+   * @returns generic type | single object or list of objects
+   */
   delete<T>(id: string | number, options?: HttpDeleteOptions): Observable<T> {
     const method: HttpMethod = 'DELETE';
     const url = resolveUrl(this.url, options, id.toString());
     const requestOptions = extractRequestOptions(options);
 
-    return this._http
+    return this.http
       .request<T>(method, url, requestOptions)
       .pipe(mapResponse(options), catchError(this.handleError));
   }
