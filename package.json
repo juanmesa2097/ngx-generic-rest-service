@@ -1,6 +1,6 @@
 {
   "name": "ngx-generic-rest-service",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "🚀 A simple yet powerful Angular generic service to easily call RESTful web services.",
   "author": "juanmesa2097",
   "repository": {
