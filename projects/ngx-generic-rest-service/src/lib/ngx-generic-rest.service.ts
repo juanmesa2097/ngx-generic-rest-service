@@ -20,12 +20,12 @@ import {
 export class NgxGenericRestService {
   private readonly http: HttpClient;
 
-  constructor(protected _httpConfig: HttpConfig) {
+  constructor(protected httpConfig: HttpConfig) {
     this.http = inject(HttpClient);
   }
 
   get url(): string {
-    const { baseUrl, resourceName } = this._httpConfig;
+    const { baseUrl, resourceName } = this.httpConfig;
     return `${baseUrl}/${resourceName}`;
   }
 

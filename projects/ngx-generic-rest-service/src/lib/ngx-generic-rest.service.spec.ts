@@ -23,7 +23,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it('should return "inline-base-url/inline-resource-name" when url accesor is called', inject(
+    it(`should return 'inline-base-url/inline-resource-name' when url accesor is called`, inject(
       [TestService],
       (testService: TestService) => {
         const apiUrl = testService.url;
@@ -60,7 +60,7 @@ describe('NgxGenericRestService', () => {
       expect(requestOptions).toEqual(expectedRequestOptions);
     });
 
-    it("should return empty object if there's no common properties between HttpRequestOptions & object", () => {
+    it(`should return empty object if there's no common properties between HttpRequestOptions & object`, () => {
       const mockObject = {
         foo: 'foo',
         bar: 'bar',
@@ -119,7 +119,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should map request's response to desired result when called with config.mapResponseFn", inject(
+    it(`should map request's response to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyResponse: { data: TestEntity[]; count: number } = {
@@ -143,7 +143,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should transform request's result to desired result when called with config.mapResponseFn", inject(
+    it(`should transform request's result to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyData: TestEntity[] = [
@@ -246,7 +246,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should map request's response to desired result when called with config.mapResponseFn", inject(
+    it(`should map request's response to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyId = 1;
@@ -271,7 +271,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should transform request's result to desired result when called with config.mapResponseFn", inject(
+    it(`should transform request's result to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyId = 1;
@@ -378,7 +378,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should map request's response to desired result when called with config.mapResponseFn", inject(
+    it(`should map request's response to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyEntity: TestEntity = { foo: 'foo', bar: 999 };
@@ -504,7 +504,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should map request's response to desired result when called with config.mapResponseFn", inject(
+    it(`should map request's response to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyId = 1;
@@ -628,7 +628,7 @@ describe('NgxGenericRestService', () => {
       }
     ));
 
-    it("should map request's response to desired result when called with config.mapResponseFn", inject(
+    it(`should map request's response to desired result when called with config.mapResponseFn`, inject(
       [TestService, HttpTestingController],
       (testService: TestService, httpMock: HttpTestingController) => {
         const dummyId = 1;
