@@ -10,16 +10,17 @@
     "lint": "ng lint"
   },
   "private": false,
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "lint-staged": {
     "*.{ts,yml,json,md}": [
       "prettier --write"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "dependencies": {
     "@angular/animations": "~11.2.4",
@@ -52,6 +53,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-packagr": "^11.0.0",
+    "prettier": "^2.2.1",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
