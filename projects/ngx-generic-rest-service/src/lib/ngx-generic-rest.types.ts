@@ -7,11 +7,6 @@ export interface HttpConfig {
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export type ResultMessage = {
-  successMsg?: string;
-  errorMsg?: string;
-};
-
 export type HttpRequestOptions = {
   headers?: _httpHeaders;
   params?: _httpParams;
@@ -32,10 +27,10 @@ export type HttpOptions<T = any> = HttpRequestOptions & {
   mapFn?: (res: any) => T;
 };
 
-export type HttpGetAllOptions<T = any> = HttpOptions<T> & ResultMessage;
-export type HttpGetSingleOptions<T = any> = HttpOptions<T> & ResultMessage;
-export type HttpAddOptions<T = any> = HttpOptions<T> & ResultMessage;
+export type HttpGetAllOptions<T = any> = HttpOptions<T>;
+export type HttpGetSingleOptions<T = any> = HttpOptions<T>;
+export type HttpAddOptions<T = any> = HttpOptions<T>;
 export type HttpUpdateOptions<T = any> = HttpOptions<T> & {
   method?: 'PUT' | 'PATCH';
-} & ResultMessage;
-export type HttpDeleteOptions<T = any> = HttpOptions<T> & ResultMessage;
+};
+export type HttpDeleteOptions<T = any> = HttpOptions<T>;
