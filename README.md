@@ -1,4 +1,4 @@
-# Ngx-generic-rest-service &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/juanmesa2097/ngx-generic-rest-service/blob/main/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/juanmesa2097/ngx-generic-rest-service/blob/main/CONTRIBUTING)
+# Ngx-generic-rest-service &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/juanmesa2097/ngx-generic-rest-service/blob/main/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/juanmesa2097/ngx-generic-rest-service/blob/main/CONTRIBUTING.md)
 
 **Ngx-generic-rest-service** is a lightweight, strongly typed & very easy-to-use Angular library that handles common HTTP requests to decrease boilerplate when you write common HTTP services. Its main focus is to apply the DRY (Don't repeat yourself) principle.
 
