@@ -5,13 +5,13 @@
 ## Installation
 
 ```consola
-npm install ngx-generic-rest-service
+npm install ngx-grs
 ```
 
 or
 
 ```consola
-yarn add ngx-generic-rest-service
+yarn add ngx-grs
 ```
 
 ## Usage
