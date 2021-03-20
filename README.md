@@ -135,7 +135,7 @@ export interface Task {
 
 | Option     | Description                                                                        | Used by                           |
 | ---------- | ---------------------------------------------------------------------------------- | --------------------------------- |
-| urlRewrite | Rewrites the entire request API UR                                                 | List, Single, Add, Update, Delete |
-| urlPostfix | Adds a postfix to the API URL (useful to specify sub-resources                     | List, Single, Add, Update, Delete |
+| urlRewrite | Rewrites the entire request API URL                                                | List, Single, Add, Update, Delete |
+| urlPostfix | Adds a postfix to the API URL (useful to specify sub-resources)                    | List, Single, Add, Update, Delete |
 | method     | Helps the service to understand if it is a PUT or a PATCH request (PUT by default) | Update                            |
 | mapFn      | Transforms the API response to the desired output                                  | List, Single, Add, Update, Delete |
