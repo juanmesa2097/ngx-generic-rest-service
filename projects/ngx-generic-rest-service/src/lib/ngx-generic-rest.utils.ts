@@ -38,7 +38,9 @@ export const resolveUrl = (
  * @returns object with 0 or n request parameters
  */
 export const extractRequestOptions = (options?: any) => {
-  if (!options || typeof options !== 'object') return {};
+  if (!options || typeof options !== 'object') {
+    return {};
+  }
 
   return [
     'headers',
