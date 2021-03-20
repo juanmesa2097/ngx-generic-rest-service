@@ -86,26 +86,26 @@ export interface Task {
   ```ts
   task: Task;
 
-  fetchTasks(taskId: number): void {
+  fetchTask(taskId: number): void {
     this.tasksService.single<Task>(taskId).subscribe(task => this.task = task);
   }
   ```
 
 - Create a task
   ```ts
-  fetchTasks(task: Task): void {
+  createTask(task: Task): void {
     this.tasksService.add<Task>(task).subscribe();
   }
   ```
 - Update a task with a PUT request
   ```ts
-  fetchTasks(taskId: number, task: Partial<Task>): void {
+  updateTask(taskId: number, task: Partial<Task>): void {
     this.tasksService.update<Task>(taskId, task).subscribe();
   }
   ```
 - Update a task with a PATCH request
   ```ts
-  fetchTasks(taskId: number, task: Partial<Task>): void {
+  updateTask(taskId: number, task: Partial<Task>): void {
     this.tasksService
   	.update<Task>(taskId, task, {
   	  method: 'PATCH'
@@ -115,7 +115,7 @@ export interface Task {
   ```
 - Delete a task
   ```ts
-  fetchTasks(taskId: number): void {
+  deleteTasks(taskId: number): void {
     this.tasksService.delete<Task>(taskId).subscribe();
   }
   ```
