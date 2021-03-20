@@ -1,17 +1,25 @@
 import { map } from 'rxjs/operators';
 import { HttpOptions } from './ngx-generic-rest.types';
 
+/**
+ * Dynamically resolves API URL
+ * @param baseUrl base end path of the API URL (eg., https://example.com/api)
+ * @param options HTTP base config options
+ * @param args extra arguments that are concatenated to URL before postfix.
+ * @returns API endpoint
+ */
 export const resolveUrl = (
   baseUrl: string,
-  config?: HttpOptions,
+  options?: HttpOptions,
   ...args: string[]
 ): string => {
-  const { url, urlPostfix } = config || {};
-  let result = baseUrl;
+  const { urlRewrite, urlPostfix } = options || {};
 
-  if (url) {
-    return url;
+  if (urlRewrite) {
+    return urlRewrite;
   }
+
+  let result = baseUrl;
 
   if (args && args.length > 0) {
     result += `/${args.join('/')}`;
@@ -24,8 +32,13 @@ export const resolveUrl = (
   return result;
 };
 
+/**
+ * Extracts actual requests options from any object
+ * @param options any object that may contain a request parameter
+ * @returns object with 0 or n request parameters
+ */
 export const extractRequestOptions = (options?: any) => {
-  if (!options) return {};
+  if (!options || typeof options !== 'object') return {};
 
   return [
     'headers',
@@ -45,5 +58,10 @@ export const extractRequestOptions = (options?: any) => {
   }, {});
 };
 
+/**
+ * Maps API response to a desired result
+ * @param options HTTP base config options
+ * @returns any result that is specified
+ */
 export const mapResponse = <T>(options?: HttpOptions) =>
-  map((res: T) => (options?.mapResponseFn ? options.mapResponseFn(res) : res));
+  map((res: T) => (options?.mapFn ? options.mapFn(res) : res));
