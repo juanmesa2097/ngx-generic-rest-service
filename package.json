@@ -1,7 +1,26 @@
 {
   "name": "ngx-generic-rest-service",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "🚀 A simple yet powerful Angular generic service to easily call RESTful web services.",
   "author": "juanmesa2097",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juanmesa2097/ngx-generic-rest-service.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juanmesa2097/ngx-generic-rest-service/issues"
+  },
+  "homepage": "https://github.com/juanmesa2097/ngx-generic-rest-service",
+  "keywords": [
+    "angular",
+    "javascript",
+    "typescript",
+    "service",
+    "restful",
+    "rest",
+    "api"
+  ],
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
