@@ -11,18 +11,6 @@
     "lint": "ng lint"
   },
   "private": false,
-  "lint-staged": {
-    "*.{ts,yml,json,md}": [
-      "prettier --write"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run test",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "dependencies": {
     "@angular/common": "~11.2.4",
     "@angular/compiler": "~11.2.4",
