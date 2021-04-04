@@ -8,7 +8,8 @@
     "build:prod": "ng build --prod",
     "test": "ng test",
     "test:prod": "ng test --browsers=ChromeHeadless --watch=false --code-coverage",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "prepare": "husky install"
   },
   "private": false,
   "dependencies": {
