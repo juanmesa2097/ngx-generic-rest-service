@@ -1,0 +1,55 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 99
+  target-branch: develop
+  ignore:
+  - dependency-name: "@types/node"
+    versions:
+    - 14.14.36
+    - 14.14.37
+    - 15.0.0
+  - dependency-name: "@angular/compiler"
+    versions:
+    - 11.2.10
+    - 11.2.11
+  - dependency-name: "@angular/core"
+    versions:
+    - 11.2.10
+    - 11.2.11
+  - dependency-name: "@angular/common"
+    versions:
+    - 11.2.11
+  - dependency-name: "@angular/platform-browser-dynamic"
+    versions:
+    - 11.2.11
+  - dependency-name: "@angular/platform-browser"
+    versions:
+    - 11.2.11
+  - dependency-name: "@angular/compiler-cli"
+    versions:
+    - 11.2.11
+  - dependency-name: "@angular/cli"
+    versions:
+    - 11.2.6
+    - 11.2.7
+    - 11.2.8
+  - dependency-name: "@angular-devkit/build-angular"
+    versions:
+    - 0.1102.6
+    - 0.1102.7
+    - 0.1102.8
+  - dependency-name: "@types/jasmine"
+    versions:
+    - 3.6.8
+  - dependency-name: karma
+    versions:
+    - 6.3.0
+    - 6.3.1
+  - dependency-name: husky
+    versions:
+    - 5.2.0
