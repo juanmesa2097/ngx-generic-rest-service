@@ -30,7 +30,7 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@types/jasmine": "~3.8.1",
     "@types/jest": "26.0.24",
-    "@types/node": "^16.4.3",
+    "@types/node": "^16.4.5",
     "codelyzer": "^6.0.2",
     "husky": "^7.0.1",
     "jasmine-core": "~3.8.0",
